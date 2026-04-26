@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Playful color palette */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+
+  --color-secondary-50: #fffbeb;
+  --color-secondary-100: #fef3c7;
+  --color-secondary-200: #fde68a;
+  --color-secondary-300: #fcd34d;
+  --color-secondary-400: #fbbf24;
+  --color-secondary-500: #f59e0b;
+
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  --animate-slide-up: slide-up 0.25s ease-out;
+  --animate-dashboard-pan: dashboard-pan 24s ease-in-out infinite;
+  --animate-dashboard-pulse: dashboard-pulse 8s ease-in-out infinite;
+  --animate-dashboard-rise: dashboard-rise 18s ease-in-out infinite;
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(8px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes dashboard-pan {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-2.5%, -2%, 0) scale(1.04); }
+}
+
+@keyframes dashboard-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.06); }
+}
+
+@keyframes dashboard-rise {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.16), transparent 24rem),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.12), transparent 26rem),
+    linear-gradient(180deg, #f3f7ff 0%, #f7f8ff 52%, #f9fbff 100%);
+  color: #1e293b;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.parent-dashboard-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255, 255, 255, 0.92), transparent 18rem),
+    radial-gradient(circle at 84% 8%, rgba(191, 219, 254, 0.7), transparent 22rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.95));
+}
+
+.parent-dashboard-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 78%);
+}
+
+.parent-dashboard-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(18px);
+}
+
+.parent-dashboard-panel {
+  position: absolute;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.12));
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.parent-dashboard-ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgba(99, 102, 241, 0.14);
+}
+
+.parent-dashboard-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.4), transparent);
+}
+
+.animate-dashboard-pan {
+  animation: dashboard-pan 24s ease-in-out infinite;
+}
+
+.animate-dashboard-pulse {
+  animation: dashboard-pulse 8s ease-in-out infinite;
+}
+
+.animate-dashboard-rise {
+  animation: dashboard-rise 18s ease-in-out infinite;
+}
+
+.dashboard-surface {
+  border: 1px solid rgba(226, 232, 240, 0.82);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 20px 45px rgba(110, 125, 170, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.parent-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 290px) minmax(0, 1fr);
+  gap: 0;
+}
+
+.parent-sidebar {
+  min-height: 100vh;
+  padding: 2rem 1rem 1.5rem;
+  background:
+    radial-gradient(circle at 18% 15%, rgba(255, 255, 255, 0.1), transparent 12rem),
+    radial-gradient(circle at 90% 22%, rgba(124, 58, 237, 0.32), transparent 10rem),
+    radial-gradient(circle at 8% 86%, rgba(236, 72, 153, 0.28), transparent 10rem),
+    linear-gradient(180deg, #0f4aa5 0%, #183d96 34%, #2b438f 100%);
+  position: sticky;
+  top: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.parent-sidebar::after {
+  content: "";
+  position: absolute;
+  right: -5rem;
+  bottom: -5rem;
+  width: 14rem;
+  height: 14rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 218, 121, 0.82), rgba(255, 137, 190, 0.3) 58%, transparent 72%);
+  filter: blur(4px);
+}
+
+.parent-main {
+  position: relative;
+  min-height: 100vh;
+  padding: 2.25rem;
+}
+
+.parent-main-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.parent-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(0);
+  opacity: 0.9;
+}
+
+.parent-orb-a {
+  top: -4rem;
+  right: -3rem;
+  width: 12rem;
+  height: 12rem;
+  background: rgba(196, 212, 255, 0.7);
+}
+
+.parent-orb-b {
+  right: -4rem;
+  top: 26%;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(219, 193, 255, 0.55);
+}
+
+.parent-orb-c {
+  right: -3rem;
+  bottom: 22%;
+  width: 11rem;
+  height: 11rem;
+  background: rgba(201, 220, 255, 0.6);
+}
+
+.parent-dots {
+  position: absolute;
+  right: 1.2rem;
+  top: 37%;
+  width: 5rem;
+  height: 5rem;
+  opacity: 0.3;
+  background-image: radial-gradient(#d783e8 1.8px, transparent 1.8px);
+  background-size: 12px 12px;
+}
+
+.parent-wave {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 44% -2%, rgba(188, 211, 255, 0.65), transparent 18rem),
+    radial-gradient(circle at 102% 100%, rgba(203, 226, 255, 0.82), transparent 14rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(245, 248, 255, 0.92));
+  border-radius: 0 0 2rem 2rem;
+}
+
+@media (max-width: 1279px) {
+  .parent-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .parent-main {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
