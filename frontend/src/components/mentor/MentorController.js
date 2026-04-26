@@ -208,6 +208,40 @@ const pickEnglishChildFriendlyMaleVoice = (voices = []) => {
   return scored[0]?.voice || englishVoices[0];
 };
 
+const pickHindiFriendlyVoice = (voices = []) => {
+  if (!voices.length) return null;
+
+  const hindiCandidates = voices.filter((voice) => {
+    const lang = (voice.lang || "").toLowerCase();
+    const name = (voice.name || "").toLowerCase();
+
+    return (
+      lang.startsWith("hi") ||
+      lang.endsWith("-in") ||
+      name.includes("hindi") ||
+      name.includes("india")
+    );
+  });
+
+  if (!hindiCandidates.length) return null;
+
+  const scored = hindiCandidates.map((voice) => {
+    const lang = (voice.lang || "").toLowerCase();
+    const name = (voice.name || "").toLowerCase();
+    let score = 0;
+
+    if (lang.startsWith("hi")) score += 6;
+    if (name.includes("hindi")) score += 5;
+    if (name.includes("india")) score += 2;
+    if (name.includes("female")) score += 1;
+
+    return { voice, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.voice || hindiCandidates[0];
+};
+
 const getMentorResponses = (translations = {}) => ({
   [MENTOR_EVENTS.CORRECT_ANSWER]: {
     state: MENTOR_STATES.celebrating,
@@ -295,11 +329,16 @@ const speak = (text, language = "en", rate = 0.9, pitch = 1.2) => {
 
     const preferredVoice =
       isHindi
-        ? voices.find((voice) => voice.lang?.toLowerCase().startsWith("hi"))
+        ? pickHindiFriendlyVoice(voices)
         : pickEnglishChildFriendlyMaleVoice(voices);
 
     if (preferredVoice) {
       utterance.voice = preferredVoice;
+      // Some engines expose Hindi-capable voices with non-hi language tags.
+      // Matching utterance.lang to the selected voice improves playback reliability.
+      if (isHindi && preferredVoice.lang) {
+        utterance.lang = preferredVoice.lang;
+      }
     }
 
     window.speechSynthesis.speak(utterance);
