@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "../components/AnimatedBackground";
 import GameCard from "../components/GameCard";
 import Mentor from "../components/mentor/Mentor";
-import MentorSelector from "../components/mentor/MentorSelector";
 import useMentor from "../components/mentor/useMentor";
 import LockOverlay from "../components/LockOverlay";
 import SoundToggle from "../components/SoundToggle";
@@ -76,7 +75,6 @@ const ChildDashboard = () => {
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const [showMentorSelector, setShowMentorSelector] = useState(false);
   const [recommendation, setRecommendation] = useState(null);
   const [customTests, setCustomTests] = useState([]);
 
@@ -104,13 +102,6 @@ const ChildDashboard = () => {
     const timer = setTimeout(() => greet(), 800);
     return () => clearTimeout(timer);
   }, [greet]);
-
-  // Check if first visit (no mentor selected yet)
-  useEffect(() => {
-    if (!localStorage.getItem("mentorCharacter")) {
-      setShowMentorSelector(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (!childId) {
@@ -192,11 +183,6 @@ const ChildDashboard = () => {
     return `${mins}m left`;
   };
 
-  const handleMentorSelect = (charId) => {
-    mentor.selectCharacter(charId);
-    localStorage.setItem("mentorCharacter", charId);
-  };
-
   const tipMessage =
     currentLanguage === "en"
       ? recommendation?.message || t("dashboard.defaultTip")
@@ -209,14 +195,6 @@ const ChildDashboard = () => {
       {/* Lock overlay */}
       {isLocked && <LockOverlay />}
 
-      {/* Mentor selector modal */}
-      {showMentorSelector && (
-        <MentorSelector
-          selected={mentor.character.id}
-          onSelect={handleMentorSelect}
-          onClose={() => setShowMentorSelector(false)}
-        />
-      )}
       {/* Floating Mentor */}
       <Mentor
         character={mentor.character}
@@ -260,14 +238,6 @@ const ChildDashboard = () => {
               <span className="font-bold text-gray-700">{user.name}</span>
             </div>
           )}
-          {/* Change mentor button */}
-          <button
-            onClick={() => setShowMentorSelector(true)}
-            className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
-          >
-            <span className="text-xl">{mentor.character.emoji}</span>
-            <span className="font-bold text-gray-700 text-sm">Change Buddy</span>
-          </button>
           <label className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-md">
             <span className="text-sm font-bold text-gray-700">{t("dashboard.languageLabel")}</span>
             <select
