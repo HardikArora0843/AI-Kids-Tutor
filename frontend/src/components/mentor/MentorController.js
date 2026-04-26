@@ -217,9 +217,7 @@ const pickHindiFriendlyVoice = (voices = []) => {
 
     return (
       lang.startsWith("hi") ||
-      lang.endsWith("-in") ||
-      name.includes("hindi") ||
-      name.includes("india")
+      name.includes("hindi")
     );
   });
 
@@ -232,7 +230,6 @@ const pickHindiFriendlyVoice = (voices = []) => {
 
     if (lang.startsWith("hi")) score += 6;
     if (name.includes("hindi")) score += 5;
-    if (name.includes("india")) score += 2;
     if (name.includes("female")) score += 1;
 
     return { voice, score };
@@ -341,6 +338,18 @@ const speak = (text, language = "en", rate = 0.9, pitch = 1.2) => {
       }
     }
 
+    // Retry once with generic hi-IN config if selected Hindi voice errors.
+    utterance.onerror = () => {
+      if (!isHindi) return;
+      const retryUtterance = new SpeechSynthesisUtterance(cleanText);
+      retryUtterance.lang = "hi-IN";
+      retryUtterance.rate = rate;
+      retryUtterance.pitch = pitch;
+      retryUtterance.volume = 0.8;
+      window.speechSynthesis.speak(retryUtterance);
+    };
+
+    window.speechSynthesis.resume();
     window.speechSynthesis.speak(utterance);
   };
 
