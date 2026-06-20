@@ -246,6 +246,57 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@keyframes portal-radiant-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 14px rgba(99, 102, 241, 0.65),
+      0 0 28px rgba(236, 72, 153, 0.45),
+      0 0 42px rgba(56, 189, 248, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 22px rgba(236, 72, 153, 0.75),
+      0 0 36px rgba(99, 102, 241, 0.55),
+      0 0 50px rgba(45, 212, 191, 0.45);
+  }
+}
+
+@keyframes portal-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.portal-switch-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 45%, #38bdf8 100%);
+  background-size: 200% 200%;
+  animation: portal-radiant-glow 2.4s ease-in-out infinite, portal-gradient-shift 4s ease infinite;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.portal-switch-link:hover {
+  color: #fff;
+  transform: scale(1.06);
+  filter: brightness(1.08);
+}
+
+.portal-switch-link--block {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

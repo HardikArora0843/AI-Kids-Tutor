@@ -116,7 +116,9 @@ const Login = () => {
           </p>
           <a
             href={parentUrl}
-            className="block text-center text-gray-400 hover:text-gray-600 text-xs font-semibold mt-4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="portal-switch-link portal-switch-link--block"
           >
             Parent? Go to Parent Portal
           </a>

@@ -30,7 +30,9 @@ const Landing = () => {
 
         <a
           href={parentUrl}
-          className="inline-block mt-6 text-sm font-bold text-gray-400 hover:text-primary-600"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="portal-switch-link"
         >
           Parent? Open the Parent Portal
         </a>
